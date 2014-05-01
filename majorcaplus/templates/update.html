@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Area</title>
+
+    <link rel="stylesheet" type="text/css" href="/media/css/main.css" media="screen" />
+    <link rel="stylesheet" href="/media/css/font-awesome-4.0.3/css/font-awesome.min.css">
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <a class="logo" href="/manage">Admin Area</a>
+    <a class="logout" href="/logout">Logout</a>
+</div>
+
+<div class="view-section">
+    <form action="/event/update" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ id }}">
+
+        <div class="view-section-header">
+            Update Event
+            <button class="button" type="submit">
+                <i class="fa fa-save"></i>Save
+            </button>
+        </div>
+
+        {{ form.as_p }}
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Area</title>
+
+    <link rel="stylesheet" type="text/css" href="/media/css/main.css" media="screen" />
+    <link rel="stylesheet" href="/media/css/font-awesome-4.0.3/css/font-awesome.min.css">
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <a class="logo" href="/manage">Admin Area</a>
+    <a class="logout" href="/logout">Logout</a>
+</div>
+
+
+<div class="view-section">
+    <div class="view-section-header">
+        {{ event.name }}
+        <a class="button" href="/event/image/add"><i class="fa fa-plus"></i>Add Image</a>
+
+        <form class="myform" method="get" action="/event/update">
+          <input type="hidden" name="id" value="{{event.id}}" />
+          <button class="button" type="submit">
+              <i class="fa fa-edit"></i>Update
+          </button>
+        </form>
+
+
+        <form class="myform" method="post" action="/event/delete">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{event.id}}" />
+          <button class="button" type="submit">
+              <i class="fa fa-times"></i>Delete
+          </button>
+        </form>
+    </div>
+
+
+    <table>
+        <tr>
+            <td class="name">Description</td>
+            <td class="value">{{ event.description }}</td>
+        </tr>
+        <tr>
+            <td class="name">Location</td>
+            <td class="value">{{ event.location }}</td>
+        </tr>
+        <tr>
+            <td class="name">Longitude</td>
+            <td class="value">{{ event.longitude }}</td>
+        </tr>
+        <tr>
+            <td class="name">Latitude</td>
+            <td class="value">{{ event.latitude }}</td>
+        </tr>
+        <tr>
+            <td class="name">Adult Price</td>
+            <td class="value">{{ event.adult_price }}</td>
+        </tr>
+        <tr>
+            <td class="name">Child Price</td>
+            <td class="value">{{ event.child_price }}</td>
+        </tr>
+        <tr>
+            <td class="name">Featured</td>
+            <td class="value">{{ event.is_featured|yesno:"Yes,No"}}</td>
+        </tr>
+        <tr>
+            <td class="name">Category</td>
+            <td class="value">{{ event.category }}</td>
+        </tr>
+
+    </table>
+
+
+
+    <div class="view-section-item"></div>
+</div>
+
+
+{% for photo in photos %}
+<div class="image-wrapper">
+    <img style="width:300px;" src="/media/{{photo.photo}}" />
+    <form id="myform" method="post" action="/event/image/delete">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{photo.id}}" />
+        <input type="hidden" name="eventid" value="{{event.id}}" />
+        <button class="button" type="submit">
+            <i class="fa fa-times"></i>Delete
+        </button>
+    </form>
+</div>
+{% endfor %}
+
+
+</body>
+</html>

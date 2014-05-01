@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Area</title>
+
+    <link rel="stylesheet" type="text/css" href="/media/css/main.css" media="screen" />
+    <link rel="stylesheet" href="media/css/font-awesome-4.0.3/css/font-awesome.min.css">
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+
+<div class="header">
+    <a class="logo" href="/manage">Admin Area</a>
+    <a class="logout" href="/logout">Logout</a>
+</div>
+
+<div class="section">
+    <div class="view-section-header">
+        <div class="section-title">Categories</div>
+        <a href="/category/add" class="button"><i class="fa fa-plus"></i>Add Category</a>
+    </div>
+
+    <div class="section-content">
+        {% for category in categories %}
+            <div class="section-row">
+                <span>{{ category.name }}</span>
+
+                <div class="section-row-controls right">
+                    <a class="section-row-control" href="/category/view/?id={{category.id}}"><i class="fa fa-eye"></i>view</a>
+                    <a class="section-row-control" href="/category/update/?id={{category.id}}"><i class="fa fa-edit"></i>edit</a>
+                    <span onclick="deleteCategory('{{category.name}}','{{category.id}}', this)" class="section-row-control"><i class="fa fa-times"></i>delete</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!--------------------------------------------->
+
+<div class="section">
+    <div class="view-section-header">
+        <div class="section-title">Events</div>
+        <a href="/event/add" class="button"><i class="fa fa-plus"></i>Add Event</a>
+    </div>
+
+    <div class="section-content">
+        {% for event in events %}
+            <div class="section-row">
+                <span>{{ event.name }}</span>
+
+                <div class="section-row-controls right">
+                    <a class="section-row-control" href="/event/view/?id={{event.id}}"><i class="fa fa-eye"></i>view</a>
+                    <a class="section-row-control" href="/event/update/?id={{event.id}}"><i class="fa fa-edit"></i>edit</a>
+                    <span onclick="deleteEvent('{{event.name}}','{{event.id}}', this)" class="section-row-control"><i class="fa fa-times"></i>delete</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!--------------------------------------------->
+
+<div class="section">
+    <div class="view-section-header">
+        <div class="section-title">Promotions</div>
+        <a href="/promotion/add" class="button"><i class="fa fa-plus"></i>Add Promotion</a>
+    </div>
+
+    <div class="section-content">
+        {% for promotion in promotions %}
+            <div class="section-row">
+                <span>{{ promotion.code }}</span>
+
+                <div class="section-row-controls right">
+                    <a class="section-row-control" href="/promotion/view/?id={{promotion.id}}"><i class="fa fa-eye"></i>view</a>
+                    <a class="section-row-control" href="/promotion/update/?id={{promotion.id}}"><i class="fa fa-edit"></i>edit</a>
+                    <span onclick="deletePromotion('{{promotion.code}}','{{promotion.id}}', this)" class="section-row-control"><i class="fa fa-times"></i>delete</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<script>
+function deleteCategory(name, id, caller){
+    var conf = confirm("Are you sure you want to delete " + name + " ?");
+    if(conf == true){
+
+         $.post( "/category/delete", {id : id} ).done(function( data ) {
+            $(caller).parent().parent().remove();
+         });
+    }
+}
+
+function deleteEvent(name, id, caller){
+    var conf = confirm("Are you sure you want to delete " + name + " ?");
+    if(conf == true){
+
+         $.post( "/event/delete", {id : id} ).done(function( data ) {
+            $(caller).parent().parent().remove();
+         });
+    }
+}
+
+function deletePromotion(name, id, caller){
+    var conf = confirm("Are you sure you want to delete " + name + " ?");
+    if(conf == true){
+
+         $.post( "/promotion/delete", {id : id} ).done(function( data ) {
+            $(caller).parent().parent().remove();
+         });
+    }
+}
+</script>
+
+
+</body>
+</html>
